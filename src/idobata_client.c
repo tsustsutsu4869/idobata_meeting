@@ -57,7 +57,7 @@ void idobata_client(char *username, char *server_adrs, int port){
 			/* MESGパケットを受け取ったらメッセージを表示 */
 			if(analize_header(packet->header) == MESSAGE)
 			{
-				printf("%s\n", packet->data);
+				printf("%s \n", packet->data);
 				fflush(stdout);
 			}
 
