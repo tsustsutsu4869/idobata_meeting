@@ -58,7 +58,7 @@ void idobata_client(char *username, char *server_adrs, int port){
 			if(analize_header(packet->header) == MESSAGE)
 			{
 				printf("%s\n", packet->data);
-				//fflush(stdout);
+				fflush(stdout);
 			}
 
 		}
