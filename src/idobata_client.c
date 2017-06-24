@@ -65,3 +65,5 @@ void idobata_client(char *username, char *server_adrs, int port){
 	}
 
 }
+
+//push
