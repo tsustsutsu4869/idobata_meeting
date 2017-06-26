@@ -60,7 +60,7 @@ void idobata_server(char *username, int port){
 
 	for(;;){
 		/* 待ち時間に何かする */
-		tcp_server_loop();
+		tcp_server_loop(tcp_sock, username);
 	}
 
 	close(udp_sock);
