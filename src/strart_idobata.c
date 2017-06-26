@@ -15,11 +15,11 @@ char* start_idobata(int port){
 	int broadcast_sw = 1;
 	fd_set mask, readfds;
 	struct timeval timeout;
-
-	char s_buf[R_BUFSIZE], r_buf[R_BUFSIZE];
+   char s_buf[R_BUFSIZE], r_buf[R_BUFSIZE];
 	int strsize;
 
 	char *server_adrs;
+	idobata *packet;
 
 	/* ブロードキャストアドレスの情報をsockaddr_in構造体に格納する */
 	set_sockaddr_in_broadcast(&broadcast_adrs, port);
@@ -58,7 +58,8 @@ char* start_idobata(int port){
 			strsize = Recvfrom(sock, r_buf, R_BUFSIZE-1, 0, (struct sockaddr *)&from_adrs, &from_len);
 			r_buf[strsize] = '\0';
 
-			if(strncmp(r_buf, "HERE", 4) == 0){
+			packet = (idobata *)r_buf; /* packetがバッファの先頭を指すようにする */
+			if(analize_header(packet->header) == HERE){
 				printf("You are a client.\n");
 				server_adrs = inet_ntoa(from_adrs.sin_addr);  //char server_adrs[256];　なら、strcpy(server, inet_ntoa(from_adrs.sin_addr));
 				close(sock);

@@ -13,6 +13,7 @@ static char *chop_nl(char *s);
 
 
 //受信メッセージの先頭のパケットによって決められた処理に分岐させる関数
+//この関数はもう使わんけど、他のとこでパケット処理書き終わるまで参考のため消してない
 void process_infulenced_packet(int socket, char buf[R_BUFSIZE]){
 //	idobata *packet;
 	packet = (idobata *)buf; /* packetがバッファの先頭を指すようにする */
@@ -42,16 +43,9 @@ void process_infulenced_packet(int socket, char buf[R_BUFSIZE]){
 	}
 }
 
-/*第５引数には 相手先のアドレス 情報を格納するためのsockaddr構造体へのポインタを指定します。 （上の例では、実際には sockaddr_in構造体を使用するから sockaddr *に 型変換している） 第６引数は、socklen_t型変数へのポインタを指定しますが、この引数は 入力としても出力としても使用するパラメータであることに注意します。 すなわち、呼び出し時には第５引数で指定した構造体のサイズを指定しておき、 recvfrom()から戻ってきたときには、実際の相手先のアドレスのサイズが 入っています。
+void tcp_server_loop(){
 
-第５引数と第６引数は、どこから到着したパケットか調べる必要がなければ NULLにしておいても構いません。（例題の場合もNULLでよいのですが、使い方を 解説するために入れてあります。）
- *
- *
- *
- *
- * */
-
-
+}
 
 
 
