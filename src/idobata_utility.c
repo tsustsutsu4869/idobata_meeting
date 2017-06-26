@@ -11,17 +11,17 @@
 //}idobata;
 
 typedef struct _imember {
-  char username[L_USERNAME];     /* ユーザ名 */
-  int  sock;                     /* ソケット番号 */
-  struct _imember *next;        /* 次のユーザ */
-} *imember;
+	char username[L_USERNAME];     /* ユーザ名 */
+	int  sock;                     /* ソケット番号 */
+	struct _imember *next;        /* 次のユーザ */
+} imember;
 
 
 /*プライベート変数でここに置いといたら、このファイル内なら関数の引数としてわたさんでよくなる*/
 
 /* プライベート関数 */  //ここでしか呼び出されない関数を宣言しなあかん
 static char *chop_nl(char *s);
-static void init_client(int sock);
+static void client_login(int sock, char *name);
 
 
 
@@ -60,6 +60,8 @@ void tcp_server_loop(int sock, char *name){
 	fd_set mask, readfds;
 	char s_buf[S_BUFSIZE], r_buf[R_BUFSIZE];
 
+	idobata *packet;
+
 	/* ビットマスクの準備 */
 	FD_ZERO(&mask);  //maskをすべて０に初期化
 	FD_SET(0, &mask); //0ビット目を０と設定。標準出力を監視
@@ -71,28 +73,34 @@ void tcp_server_loop(int sock, char *name){
 		select( sock+1, &readfds, NULL, NULL, NULL );
 
 		if( FD_ISSET(sock, &readfds) ){ //真であれば先ほど接続したばかりのクライアントからパケットが到着していることが分かる
-			client_login(sock, name);
+			Recv(sock, r_buf, R_BUFSIZE-1, 0);  //strsizeいらんよな
+
+			packet = (idobata *)r_buf; /* packetがバッファの先頭を指すようにする */
+			/* MESGパケットを受け取ったらメッセージを表示 */
+			if(analize_header(packet->header) == JOIN){
+				client_login(sock, name);
+			}
 		}
 		if( FD_ISSET(0, &readfds) ){ //真であればキーボードから入力があったことが分かる
+			fgets(s_buf, S_BUFSIZE, stdin);
 			server_send_message();
-					/* キーボードから文字列を入力する */
-					//			int i;
-					//			for(i = 0; i <= strsize; i++){  //s_bufを初期化
-					//				s_buf[i] = '\0';
-					//			}
-					fgets(s_buf, S_BUFSIZE, stdin);
+			/* キーボードから文字列を入力する */
+			//			int i;
+			//			for(i = 0; i <= strsize; i++){  //s_bufを初期化
+			//				s_buf[i] = '\0';
+			//			}
 
-					if(strcmp(s_buf, "QUIT") == 0){
-						strcpy(s_buf, create_packet(QUIT, NULL));
-						Send(sock, s_buf, strlen(s_buf), 0);
+			if(strcmp(s_buf, "QUIT") == 0){
+				strcpy(s_buf, create_packet(QUIT, NULL));
+				Send(sock, s_buf, strlen(s_buf), 0);
 
-						close(sock);
-						printf("See you!\n");
-					}else{ //発言メッセージとしてサーバに送信する
-						strcpy(s_buf, create_packet(POST, s_buf));
-						Send(sock, s_buf, strlen(s_buf), 0);
-					}
-				}
+				close(sock);
+				printf("See you!\n");
+			}else{ //発言メッセージとしてサーバに送信する
+				strcpy(s_buf, create_packet(POST, s_buf));
+				Send(sock, s_buf, strlen(s_buf), 0);
+			}
+		}
 
 		while(){  //クライアントのリストを前からNULLまで参照して１回１回sockをマスクに格納して監視している
 
@@ -107,10 +115,23 @@ void client_login(int sock, char *name){
 	fd_set mask, readfds;
 	idobata *packet;
 
+	imember header;    //ダミー要素を用意
+	imember *tail = &header;
+	header.next = NULL;
+	imember *client;
+
 	/* クライアント情報の保存用構造体の初期化 */
-	if( (Client=(client_info *)malloc(N_client*sizeof(client_info)))==NULL ){
+	if( (client=(imember *)malloc(sizeof(imember)))==NULL ){
 		exit_errmesg("malloc()");
 	}
+
+	data->gpa = _gpa;
+	data->credit = _credit;
+	strcpy(data->name, _name);
+
+	data->next = NULL;
+	tail->next = data;
+	tail = data;
 
 
 }
