@@ -1,6 +1,5 @@
 #include "mynet.h"
 #include "idobata_meeting.h"
-//#include <pthread.h>
 #include <sys/select.h> //この下３ついらん？
 #include <sys/time.h>
 #include <arpa/inet.h>

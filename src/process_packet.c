@@ -1,4 +1,3 @@
-#include "mynet.h"
 #include "idobata_meeting.h"
 
 #define MSGBUF_SIZE 512
@@ -40,7 +39,7 @@ char *create_packet(u_int32_t type, char *message ){
 
 
 //パケットのヘッダを解析する関数
-u_int32_t analyze_header( char *header ){
+u_int32_t analyze_header(char *header){
   if( strncmp( header, "HELO", 4 )==0 ){
 	  return(HELLO);
   }

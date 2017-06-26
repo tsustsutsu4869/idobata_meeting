@@ -8,7 +8,7 @@
 #ifndef IDOBATA_MEETING_H_
 #define IDOBATA_MEETING_H_
 
-/* パケットの種類を表す記号定数 */
+/* パケットの種類を表す */
 #define HELLO 1
 #define HERE 2
 #define JOIN 3
@@ -26,16 +26,22 @@ typedef struct{
 	char data[];      /* データ部分(メッセージ本体) */
 }idobata;
 
+
 char* start_idobata(int port);
+
+void idobata_server(char *username, int port);
+
+void tcp_server_loop(int sock, char *name);
 
 void idobata_client(char *username, char *server_adrs, int port);
 
 void process_infulenced_packet(int socket, char *buf);
 
-char *create_packet(u_int32_t type, char *message );
+char *create_packet(u_int32_t type, char *message);
 
-u_int32_t analyze_header( char *header );
 
+
+u_int32_t analyze_header(char *header);
 
 int Accept(int s, struct sockaddr *addr, socklen_t *addrlen);
 

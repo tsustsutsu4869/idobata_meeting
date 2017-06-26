@@ -76,7 +76,6 @@ void action_client_acceptance(int signo){
 	socklen_t from_len;
 	char s_buf[S_BUFSIZE], r_buf[R_BUFSIZE];
 	int strsize;
-	fd_set mask, readfds;
 	idobata *packet;
 
 	for(;;){
