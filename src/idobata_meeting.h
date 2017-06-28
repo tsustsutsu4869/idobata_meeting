@@ -22,6 +22,7 @@
 #define S_BUFSIZE 512	/* 送信用バッファサイズ */
 #define R_BUFSIZE 512	/* 受信用バッファサイズ */
 #define MESG_BUFSIZE 488	/* 発言メッセージサイズ */
+#define L_USERNAME 15	/* ユーザ名サイズ */
 
 typedef struct{
 	char header[4];   /* パケットのヘッダ部(4バイト) */

@@ -1,9 +1,8 @@
 #include "idobata_meeting.h"
 
-#define MSGBUF_SIZE 512
+#define MESSAGE_BUFSIZE MESG_BUFSIZE+L_USERNAME+6	/* 発言メッセージサイズ */
 
-
-static char Buffer[MSGBUF_SIZE];
+static char Buffer[MESSAGE_BUFSIZE];
 /*
   パケットの種類=type のパケットを作成する
   パケットのデータは 内部的なバッファ(Buffer)に作成される
@@ -13,22 +12,22 @@ char *create_packet(u_int32_t type, char *message ){
 
   switch(type){
   case HELLO:
-    snprintf( Buffer, MSGBUF_SIZE, "HELO" );
+    snprintf( Buffer, MESSAGE_BUFSIZE, "HELO" );
     break;
   case HERE:
-    snprintf( Buffer, MSGBUF_SIZE, "HERE" );
+    snprintf( Buffer, MESSAGE_BUFSIZE, "HERE" );
     break;
   case JOIN:
-    snprintf( Buffer, MSGBUF_SIZE, "JOIN %s", message );
+    snprintf( Buffer, MESSAGE_BUFSIZE, "JOIN %s", message );
     break;
   case POST:
-    snprintf( Buffer, MSGBUF_SIZE, "POST %s", message );
+    snprintf( Buffer, MESSAGE_BUFSIZE, "POST %s", message );
     break;
   case MESSAGE:
-    snprintf( Buffer, MSGBUF_SIZE, "MESG %s", message );
+    snprintf( Buffer, MESSAGE_BUFSIZE, "MESG %s", message );
     break;
   case QUIT:
-    snprintf( Buffer, MSGBUF_SIZE, "QUIT" );
+    snprintf( Buffer, MESSAGE_BUFSIZE, "QUIT" );
     break;
   default:
     /* Undefined packet type */
@@ -39,7 +38,7 @@ char *create_packet(u_int32_t type, char *message ){
 
 
 //パケットのヘッダを解析する関数
-u_int32_t analyze_header(char *header){  //この関数のどっかに文法エラーあり？ , ;が抜けてる？   u_int32_tをやめました
+u_int32_t analyze_header(char *header){
   if( strncmp( header, "HELO", 4 )==0 ){
 	  return(HELLO);
   }

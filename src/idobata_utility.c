@@ -2,7 +2,6 @@
 #include "idobata_meeting.h"
 #include <errno.h>
 
-#define L_USERNAME 15	/* ユーザ名サイズ */
 #define ALL 0	/* 全てのクライアントを表す */
 
 //これをutility内で定義するとこの中でしか使えないserver.cとかで使いたいならヘッダで定義する
@@ -16,6 +15,7 @@ typedef struct _imember {
 	char username[L_USERNAME];     /* ユーザ名 */
 	int  sock;                     /* ソケット番号 */
 	struct _imember *next;        /* 次のユーザ */
+	struct _imember *prev;        /* 次のユーザ */
 } imember;
 
 
@@ -28,7 +28,7 @@ static imember *Login_client;
 //static imember *Logout_client;
 
 /* プライベート関数 */  //ここでしか呼び出されない関数を宣言しなあかん
-static char *chop_nl(char *s);
+//static char *chop_nl(char *s);
 static void client_login(int sock, char *name);
 static void client_logout(int sock);
 static char *server_send_message(int socket, char *buf);
@@ -118,6 +118,8 @@ void client_login(int sock, char *name){
 	Login_client->next = NULL;
 	tail->next = Login_client;
 	tail = Login_client;
+
+//	Max_sdを返す？
 }
 
 
