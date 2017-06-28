@@ -17,10 +17,10 @@ static void action_client_acceptance(int signo);
 /*プライベート変数*/
 static int udp_sock;
 
-void idobata_server(char *username, int port){
+void idobata_server(char *username, int port){  //これ全体ループ回ってないけど、ちゃんとつねにUDP待ってんの？→多分大丈夫
 	int tcp_sock;
-
 	struct sigaction action;
+
 #ifdef __CYGWIN__
 	int enable=1;
 #endif

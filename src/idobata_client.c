@@ -12,7 +12,7 @@ void idobata_client(char *username, char *server_adrs, int port){
 	/* サーバに接続する */
 	sock = init_tcpclient(server_adrs, port);
 	printf("Connected.\n");
-	printf("Please send username to server.\n");
+	printf("Please send your username to server.\n");
 
 	strcpy(s_buf, create_packet(JOIN, username));
 	Send(sock, s_buf, strlen(s_buf), 0);

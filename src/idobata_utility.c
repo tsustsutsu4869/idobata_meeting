@@ -57,7 +57,7 @@ void tcp_server_loop(int sock, char *name){
 
 			packet = (idobata *)r_buf; /* packetがバッファの先頭を指すようにする */
 
-			if(analyze_header(packet->header) == JOIN){  //なんでここビルド通らんの～
+			if(analyze_header(packet->header) == JOIN){
 				client_login(sock, name);
 				//continue;  //いんのこれ
 			}

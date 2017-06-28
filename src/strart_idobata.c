@@ -49,7 +49,7 @@ char* start_idobata(int port){
 	for(; count < 3; count++){
 		Sendto(sock, s_buf, strlen(s_buf), 0, (struct sockaddr *)&broadcast_adrs, sizeof(broadcast_adrs) );
 
-		if( select( sock+1, &readfds, NULL, NULL, &timeout )==0 ){
+		if( select( sock+1, &readfds, NULL, NULL, &timeout ) == 0 ){
 			printf("Time out[%d].\n", count);
 			//fflush(stdout);
 			continue;
@@ -66,12 +66,12 @@ char* start_idobata(int port){
 				return(server_adrs);
 			}
 		}
-
 		//printf("[%s] %s",inet_ntoa(from_adrs.sin_addr), r_buf);
 	}
 
 	close(sock);             /* ソケットを閉じる */
 	server_adrs = "server";
+	printf("You are a server.\n");
 	return(server_adrs);
 }
 
