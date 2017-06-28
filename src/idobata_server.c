@@ -93,7 +93,7 @@ void action_client_acceptance(int signo){
 
 		packet = (idobata *)r_buf; /* packetがバッファの先頭を指すようにする */
 		/* HELOパケットを受け取ったらHEREパケットを送り返す */
-		if(analize_header(packet->header) == HELLO)
+		if(analyze_header(packet->header) == HELLO)
 		{
 			strcpy(s_buf, create_packet(HERE, NULL));
 			Sendto(udp_sock, s_buf, strlen(s_buf), 0, (struct sockaddr *)&from_adrs, sizeof(from_adrs));

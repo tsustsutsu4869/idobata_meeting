@@ -64,8 +64,3 @@ int main(int argc, char *argv[]) {
 }
 
 
-
-/*スレッドで多重化する？
- *
- *
- * */

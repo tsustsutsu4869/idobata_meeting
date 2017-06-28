@@ -8,6 +8,9 @@
 #ifndef IDOBATA_MEETING_H_
 #define IDOBATA_MEETING_H_
 
+#include "mynet.h"
+#include <stdint.h>
+
 /* パケットの種類を表す */
 #define HELLO 1
 #define HERE 2
@@ -38,8 +41,6 @@ void idobata_client(char *username, char *server_adrs, int port);
 void process_infulenced_packet(int socket, char *buf);
 
 char *create_packet(u_int32_t type, char *message);
-
-
 
 u_int32_t analyze_header(char *header);
 

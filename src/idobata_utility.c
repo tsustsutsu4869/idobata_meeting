@@ -57,7 +57,7 @@ void tcp_server_loop(int sock, char *name){
 
 			packet = (idobata *)r_buf; /* packetがバッファの先頭を指すようにする */
 
-			if(analize_header(packet->header) == JOIN){  //なんでここビルド通らんの～
+			if(analyze_header(packet->header) == JOIN){  //なんでここビルド通らんの～
 				client_login(sock, name);
 				//continue;  //いんのこれ
 			}
@@ -79,7 +79,7 @@ void tcp_server_loop(int sock, char *name){
 
 				char *msg;
 				packet = (idobata *)r_buf; /* packetがバッファの先頭を指すようにする */
-				switch(analize_header(packet->header)){
+				switch(analyze_header(packet->header)){
 				   case POST:
 					   msg = server_send_message(p->sock, packet->data);
 					   printf("%s\n", msg);
@@ -131,7 +131,7 @@ void client_logout(int sock){
 char *server_send_message(int socket, char *buf){  //リスト処理意味不明やから見直して
 	imember *p = header.next;
 
-	char tag_username[L_USERNAME + S_BUFSIZE + 2] = "[username]";  //初期化できてるかあやしい
+	static char tag_username[L_USERNAME + S_BUFSIZE + 2] = "[username]";  //初期化できてるかあやしい  関数がローカルの変数のアドレスを返していますって起こられるからstaticつけた
 	strcat(tag_username, buf);  //文字を連結してsend_msgに格納
 
 	buf = create_packet(MESSAGE, tag_username);
@@ -154,12 +154,12 @@ char *server_send_message(int socket, char *buf){  //リスト処理意味不明
 }
 
 
-/* 文字列の末尾に改行コードがあれば取り除く関数 */
-char *chop_nl(char *s){
-	int len;
-	len = strlen(s);
-	if( s[len-1] == '\n' ){
-		s[len-1] = '\0';
-	}
-	return(s);
-}
+///* 文字列の末尾に改行コードがあれば取り除く関数 */
+//char *chop_nl(char *s){
+//	int len;
+//	len = strlen(s);
+//	if( s[len-1] == '\n' ){
+//		s[len-1] = '\0';
+//	}
+//	return(s);
+//}

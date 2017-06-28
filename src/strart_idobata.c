@@ -59,7 +59,7 @@ char* start_idobata(int port){
 			r_buf[strsize] = '\0';
 
 			packet = (idobata *)r_buf; /* packetがバッファの先頭を指すようにする */
-			if(analize_header(packet->header) == HERE){
+			if(analyze_header(packet->header) == HERE){
 				printf("You are a client.\n");
 				server_adrs = inet_ntoa(from_adrs.sin_addr);  //char server_adrs[256];　なら、strcpy(server, inet_ntoa(from_adrs.sin_addr));
 				close(sock);

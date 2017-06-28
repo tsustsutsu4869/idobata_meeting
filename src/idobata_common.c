@@ -1,5 +1,5 @@
 #include "mynet.h"
-#include "idobata_meeting.h"
+//#include "idobata_meeting.h"
 
 int Accept(int s, struct sockaddr *addr, socklen_t *addrlen)
 {

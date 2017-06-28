@@ -55,7 +55,7 @@ void idobata_client(char *username, char *server_adrs, int port){
 			packet = (idobata *)r_buf; /* packetがバッファの先頭を指すようにする */
 
 			/* MESGパケットを受け取ったらメッセージを表示 */
-			if(analize_header(packet->header) == MESSAGE){
+			if(analyze_header(packet->header) == MESSAGE){
 				printf("%s \n", packet->data);
 				fflush(stdout);
 			}
